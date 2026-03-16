@@ -1,89 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 const StudentForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    course: ''
-  });
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm();
 
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    course: ''
-  });
-
-  const validate = () => {
-    const newErrors = {};
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email format is invalid';
-    }
-    if (!formData.course.trim()) {
-      newErrors.course = 'Course is required';
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const onSubmit = (data) => {
+    alert('Form submitted successfully! Data: ' + JSON.stringify(data));
   };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      alert('Form submitted successfully!');
-      // Reset form or handle submission
-    }
-  };
-
-  const isFormValid = formData.name.trim() && /\S+@\S+\.\S+/.test(formData.email) && formData.course.trim();
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="name">Name:</label>
         <input
           type="text"
           id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
+          {...register('name', { required: 'Name is required' })}
         />
-        {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
+        {errors.name && <p style={{ color: 'red' }}>{errors.name.message}</p>}
       </div>
       <div>
         <label htmlFor="email">Email:</label>
         <input
           type="email"
           id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
+          {...register('email', {
+            required: 'Email is required',
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: 'Email format is invalid'
+            }
+          })}
         />
-        {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
+        {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
       </div>
       <div>
         <label htmlFor="course">Course:</label>
         <input
           type="text"
           id="course"
-          name="course"
-          value={formData.course}
-          onChange={handleChange}
+          {...register('course', { required: 'Course is required' })}
         />
-        {errors.course && <p style={{ color: 'red' }}>{errors.course}</p>}
+        {errors.course && <p style={{ color: 'red' }}>{errors.course.message}</p>}
       </div>
-      <button type="submit" disabled={!isFormValid}>
+      <button type="submit" disabled={!isValid}>
         Submit
       </button>
     </form>
