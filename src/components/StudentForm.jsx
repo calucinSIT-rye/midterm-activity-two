@@ -9,18 +9,19 @@ const StudentForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="name">Name:</label>
+    <form onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: '400px', margin: '0 auto' }}>
+      <div style={{ marginBottom: '15px' }}>
+        <label htmlFor="name" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Full Name:</label>
         <input
           type="text"
           id="name"
           {...register('name', { required: 'Name is required' })}
+          style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px' }}
         />
-        {errors.name && <p style={{ color: 'red' }}>{errors.name.message}</p>}
+        {errors.name && <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>{errors.name.message}</p>}
       </div>
-      <div>
-        <label htmlFor="email">Email:</label>
+      <div style={{ marginBottom: '15px' }}>
+        <label htmlFor="email" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Email Address:</label>
         <input
           type="email"
           id="email"
@@ -31,20 +32,35 @@ const StudentForm = () => {
               message: 'Email format is invalid'
             }
           })}
+          style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px' }}
         />
-        {errors.email && <p style={{ color: 'red' }}>{errors.email.message}</p>}
+        {errors.email && <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>{errors.email.message}</p>}
       </div>
-      <div>
-        <label htmlFor="course">Course:</label>
+      <div style={{ marginBottom: '15px' }}>
+        <label htmlFor="course" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Course:</label>
         <input
           type="text"
           id="course"
           {...register('course', { required: 'Course is required' })}
+          style={{ width: '100%', padding: '8px', border: '1px solid #ccc', borderRadius: '4px', fontSize: '16px' }}
         />
-        {errors.course && <p style={{ color: 'red' }}>{errors.course.message}</p>}
+        {errors.course && <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>{errors.course.message}</p>}
       </div>
-      <button type="submit" disabled={!isValid}>
-        Submit
+      <button
+        type="submit"
+        disabled={!isValid}
+        style={{
+          width: '100%',
+          padding: '10px',
+          backgroundColor: isValid ? '#003366' : '#ccc',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          fontSize: '16px',
+          cursor: isValid ? 'pointer' : 'not-allowed'
+        }}
+      >
+        Register Student
       </button>
     </form>
   );
