@@ -1,4 +1,3 @@
-import React from 'react';
 import StudentForm from '../components/StudentForm';
 
 const Register = () => {
